@@ -23,7 +23,10 @@ class AlienInvasion:
         # Create instance of Ship
         # The self argument refers to the current instance of AlienInvasion. 
         self.ship = Ship(self)
+        
 
+        # create a group in AlienInvasion to store all the live bullets so we can manage the bullets that have already been fired. 
+        # This group will be an instance of the pygame.sprite.Group class
         self.bullets = pygame.sprite.Group()
 
 
@@ -73,6 +76,12 @@ class AlienInvasion:
             self.ship.update()
             self.bullets.update()
 
+            # Get rid of bullets that have disappeared.
+            for bullet in self.bullets.copy():
+                if bullet.rect.bottom <= 0:
+                    self.bullets.remove(bullet)
+            
+
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""
         # Redraw the screen during each pass through the loop
@@ -80,7 +89,7 @@ class AlienInvasion:
         # Draw the ship on the screen
         self.ship.blitme()
 
-        # Draw the bullets on the screen
+        # Draw all the bullets to the screen for every loop interation
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
 

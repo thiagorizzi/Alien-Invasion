@@ -5,6 +5,7 @@ from pygame.sprite import Sprite
 class Bullet(Sprite):
     """A class to manage bullets fired from the ship"""
 
+    # ai_game will give Bullet access to all the game resources defined in AlienInvasion.
     def __init__(self, ai_game):
         """Create a bullet object at the ship's current position."""
         super().__init__()
@@ -23,8 +24,9 @@ class Bullet(Sprite):
     def update(self):
         """Move the bullet up the screen."""
         # Update the decimal position of the bullet.
-        self.y -= self.settings.bullet_speed
-        # Update the rect position.
+        if self.rect.bottom > 0:
+            self.y -= self.settings.bullet_speed
+            # Update the rect position.
         self.rect.y = self.y
 
     def draw_bullet(self):
