@@ -25,12 +25,10 @@ class AlienInvasion:
         # The self argument refers to the current instance of AlienInvasion. 
         self.ship = Ship(self)
         
-
         # create a group in AlienInvasion to store all the live bullets so we can manage the bullets that have already been fired. 
         # This group will be an instance of the pygame.sprite.Group class
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
-
         self._create_fleet_()
 
 
@@ -104,10 +102,8 @@ class AlienInvasion:
             self.ship.moving_left = False
 
     def _update_aliens(self):
-        """
-        Check if the fleet is at an edge,
-        then update the positions of all aliens in the fleet.
-        """
+        """Check if the fleet is at an edge,
+        then update the positions of all aliens in the fleet."""
         self._check_fleet_edges()
         self.aliens.update()
 
@@ -130,14 +126,19 @@ class AlienInvasion:
             self._check_events_()
             self._update_screen()
             self.ship.update()
-            self._update_aliens()
-            self.bullets.update()
-
-            # Get rid of bullets that have disappeared.
-            for bullet in self.bullets.copy():
-                if bullet.rect.bottom <= 0:
-                    self.bullets.remove(bullet)
+            self._update_bullets()
+            self._update_aliens()     
             
+
+    def _update_bullets(self):
+        """Update position of bullets and get rid of old bullets."""
+        # Update bullet positions.
+        self.bullets.update()
+        # Get rid of bullets that have disappeared.
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
+
 
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""
@@ -149,7 +150,6 @@ class AlienInvasion:
         # Draw all the bullets to the screen for every loop interation
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
-
         
         self.aliens.draw(self.screen)
 
