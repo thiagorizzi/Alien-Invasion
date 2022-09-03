@@ -141,6 +141,11 @@ class AlienInvasion:
                 self.bullets.remove(bullet)
         self._check_bullet_alien_collision()
 
+        if not self.aliens:
+        # Destroy existing bullets and create new fleet.
+            self.bullets.empty()
+            self._create_fleet_()
+
         
     def _check_bullet_alien_collision(self):
         """Check for any bullets that have hit aliens.
